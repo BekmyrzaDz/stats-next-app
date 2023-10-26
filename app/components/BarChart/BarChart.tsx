@@ -1,14 +1,23 @@
+import { SetStateAction } from "react";
+import { Year, Month, HalfYear } from "../../mockApi/types";
+import MySelect from "../Select/MySelect";
+import { Option } from "../Select/MySelect.props";
 import styles from "./BarChart.module.scss";
 
-interface Data {
-  [key: string]: number;
-}
-
 interface Props {
-  data: Data;
+  data: Year | Month | HalfYear;
+  setValue: React.Dispatch<SetStateAction<string>>;
+  value: string;
 }
 
-const BarChart: React.FC<Props> = ({ data }) => {
+const BarChart: React.FC<Props> = ({ data, setValue, value }) => {
+  // Options for room select
+  const options: Option[] = [
+    { key: "За последний год", value: "За последний год" },
+    { key: "За последние 6 месяцев", value: "За последние 6 месяцев" },
+    { key: "За последний месяц", value: "За последний месяц" },
+  ];
+
   // Максимальное значение для шкалы Y
   const max = Math.max(...Object.values(data));
 
@@ -40,20 +49,29 @@ const BarChart: React.FC<Props> = ({ data }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.barChart}>
-        <div className={styles.axisY}>
-          <ul className={styles.list}>
-            <li>10 000</li>
-            <li>5 000</li>
-            <li>2 000</li>
-            <li>1 000</li>
-            <li>500</li>
-            <li>0</li>
-          </ul>
-        </div>
-        <div className={styles.barsContainer}>
-          <div className={styles.bars} style={{ width: width }}>
-            {bars}
+      <div className={styles.innerContainer}>
+        <MySelect
+          className={styles.wrap}
+          name="Select"
+          options={options}
+          setValue={setValue}
+          value={value}
+        />
+        <div className={styles.barChart}>
+          <div className={styles.axisY}>
+            <ul className={styles.list}>
+              <li>10 000</li>
+              <li>5 000</li>
+              <li>2 000</li>
+              <li>1 000</li>
+              <li>500</li>
+              <li>0</li>
+            </ul>
+          </div>
+          <div className={styles.barsContainer}>
+            <div className={styles.bars} style={{ width: width }}>
+              {bars}
+            </div>
           </div>
         </div>
       </div>
