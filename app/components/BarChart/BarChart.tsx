@@ -2,6 +2,7 @@ import { SetStateAction } from "react";
 import { Year, Month, HalfYear } from "../../mockApi/types";
 import MySelect from "../Select/MySelect";
 import { Option } from "../Select/MySelect.props";
+import { monthGenerate } from "../../helper/index";
 import styles from "./BarChart.module.scss";
 
 interface Props {
@@ -20,6 +21,7 @@ const BarChart: React.FC<Props> = ({ data, setValue, value }) => {
 
   // Максимальное значение для шкалы Y
   const max = Math.max(...Object.values(data));
+  const min = Math.min(...Object.values(data));
 
   // Ширина и высота графика
   const width = 821;
@@ -29,20 +31,35 @@ const BarChart: React.FC<Props> = ({ data, setValue, value }) => {
   const barWidth = 16;
 
   // Массив столбцов
-  const bars = Object.keys(data).map((month) => {
+  const bars = Object.keys(data).map((month, index) => {
     const value = data[month];
-    const barHeight = (value / max) * height;
+    const barHeight = (value / max) * 100;
+    console.log(typeof month);
 
     return (
       <div key={month} className={styles.axisX}>
         <div
-          className={styles.rect}
           style={{
-            height: barHeight,
-            width: barWidth,
+            height: height,
+            display: "flex",
+            alignItems: "end",
           }}
-        />
-        <p className={styles.month}>{month}</p>
+        >
+          <div
+            className={styles.rect}
+            style={{
+              height: `${barHeight}%`,
+              width: barWidth,
+            }}
+          />
+        </div>
+        <div
+          style={{
+            height: 30,
+          }}
+        >
+          <p className={styles.month}>{month}</p>
+        </div>
       </div>
     );
   });

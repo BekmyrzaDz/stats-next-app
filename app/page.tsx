@@ -11,14 +11,14 @@ enum SelectOptions {
 
 export default function Home() {
   const { half_year, month, year } = data.finance.periods[0].graph;
-  const selectValue = localStorage.getItem("selectValue");
+  const selectValue = window.localStorage.getItem("selectValue");
   const [value, setValue] = useState<string>(selectValue || "");
 
   return (
     <>
-      {value === SelectOptions.year ? (
+      {value.toLowerCase() === SelectOptions.year.toLowerCase() ? (
         <BarChart data={year} setValue={setValue} value={value} />
-      ) : value === SelectOptions.lastSixMonth ? (
+      ) : value.toLowerCase() === SelectOptions.lastSixMonth.toLowerCase() ? (
         <BarChart data={half_year} setValue={setValue} value={value} />
       ) : (
         <BarChart data={month} setValue={setValue} value={value} />

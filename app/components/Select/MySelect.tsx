@@ -13,7 +13,7 @@ const MySelect: FC<SelectProps> = ({
 }) => {
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setValue(event.target.value);
-    localStorage.setItem("selectValue", event.target.value);
+    window.localStorage.setItem("selectValue", event.target.value);
   };
 
   return (
